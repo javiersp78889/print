@@ -6,7 +6,6 @@ from src.presentation.printerControllers.printer_controller import PrinterContro
 from src.presentation.uploadController.uploadController import UploadController
 from src.infrastructure.mailer_config.smtplib_mailer_config import SmtpMailerConfig
 from src.infrastructure.printer_config.epsonconnect_printer_config import EpsonConnectPrinterConfig
-from src.infrastructure.printer_config.pycups_printer_config import PyCupsPrinterConfig
 from src.infrastructure.pdfmaker_config.pdf_maker_config import PdfMaker
 from src.application.usecases.print_usecase import printUseCase
 
@@ -26,7 +25,6 @@ pdfService= PdfMaker()
 #servicio de mensajeria
 smtpmailer_config=SmtpMailerConfig()
 #metodos de impresion
-#pyCupsprinterConfig= PyCupsPrinterConfig()
 epsonConnectConfig= EpsonConnectPrinterConfig(smtpmailer_config)
 
 #instancias de casos de uso 
