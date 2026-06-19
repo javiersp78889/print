@@ -1,5 +1,5 @@
 Flask
 Pillow
-pycups
+
 python-dotenv
 gunicorn
