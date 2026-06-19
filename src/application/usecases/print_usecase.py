@@ -16,6 +16,9 @@ class printUseCase:
         try:
             if os.path.exists(path):
                 os.unlink(path)
+                for n in os.listdir(path):
+                    direccion=os.path.join("temp",n)
+                    os.unlink(direccion)
         except Exception:
             pass
     
