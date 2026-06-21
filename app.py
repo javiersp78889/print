@@ -1,6 +1,7 @@
 
 from flask import Flask,request,abort
 import os
+from src.infrastructure.removebg.rembg_config import RemoveBG
 from src.middleware.middleware_auth import Authorization
 from src.presentation.printerControllers.printer_controller import PrinterController
 from src.presentation.uploadController.uploadController import UploadController
@@ -27,6 +28,8 @@ CORS(app,    resources={r"/*": {"origins": "*"}},allow_headers=["Content-Type", 
 
 
 #instancias de servicios de infrastructura
+#Removedor de fondo de imagenes
+removeBg=RemoveBG()
 #generador de pdf
 pdfService= PdfMaker(BASE_DIR)
 #servicio de mensajeria
@@ -39,7 +42,7 @@ printUsecase= printUseCase(pdfService,epsonConnectConfig,BASE_DIR)
 
 #instancias de controladores
 printer_controller= PrinterController(printUsecase)
-upload_controller= UploadController(BASE_DIR)
+upload_controller= UploadController(BASE_DIR,removeBg)
 
 #instancias de middlewares
 middleware= Authorization()

@@ -3,10 +3,13 @@ from flask import request
 from PIL import Image
 from rembg import remove
 
+from src.infrastructure.removebg.rembg_config import RemoveBG
+
 
 class UploadController:
-    def __init__(self,BASE_DIR):
+    def __init__(self,BASE_DIR,removeBg:RemoveBG):
         self.BASE_DIR=BASE_DIR
+        self.removeBg=removeBg
 
 
 
@@ -17,9 +20,7 @@ class UploadController:
         image.save(filepath)
 
         #removebg
-        input= Image.open(filepath)
-        output=remove(input)
-        output.save(filepath,"PNG")
+        self.removeBg.remove(filepath)
 
         return {"message":{
         "path":filepath
