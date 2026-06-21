@@ -8,20 +8,22 @@ from threading import Thread
 
 
 class printUseCase:
-    def __init__(self,pdfMake:PDFPort,printer:PrinterPort):
+    def __init__(self,pdfMake:PDFPort,printer:PrinterPort,BASE_DIR:str):
         self.pdfmake= pdfMake
         self.printer=printer
+        self.BASE_DIR=BASE_DIR
+        self.temp=os.path.join(self.BASE_DIR,"temp")
     def clean_print(self,path):
         #eliminamos el pdf del output
         try:
             if os.path.exists(path):
                 os.unlink(path)
-                for n in os.listdir(path):
-                    direccion=os.path.join("temp",n)
+                for n in os.listdir(self.temp):
+                    direccion = os.path.join(self.temp,n)
                     os.unlink(direccion)
         except Exception:
             pass
-    
+
     def worker(self,path):
         try:
             self.printer.printFile(path)
@@ -31,7 +33,7 @@ class printUseCase:
     def execute(self,images:list[str],case:PrintType):
         path=""
         match case:
-            case PrintType.ONE_PER_PAGE: 
+            case PrintType.ONE_PER_PAGE:
                 path=self.pdfmake.onePerPage(image_list=images)
                 print("Archivo generado uno por pagina",path)
             case PrintType.TWO_PER_PAGE:
@@ -46,6 +48,5 @@ class printUseCase:
         #mandamos a imprimir
         Thread(target=self.worker, args=(path,)).start()
         #limpiamos los residuos de la impresion
-        
+
         return {"message":"Impresora lista para imprimir, espere unos momentos"}
-         

@@ -5,17 +5,19 @@ from email.message import EmailMessage
 
 class SmtpMailerConfig(MailerPort):
 
-    def __init__(self): 
+    def __init__(self):
         #configuracion del cliente de envio
         self.mail=os.getenv("MAIL")
         self.mail_secret= os.getenv("MAIL_SECRET")
         #configuracion del mensaje
 
-    
+
     def connect(self):
         #configuracion del servidor smtp
-        mailer=smtplib.SMTP("smtp.gmail.com",587)
+        mailer=smtplib.SMTP("smtp.gmail.com",587,timeout=10)
+        mailer.ehlo()
         mailer.starttls()
+        mailer.ehlo()
         mailer.login(self.mail,self.mail_secret)
         return mailer
 
@@ -33,8 +35,8 @@ class SmtpMailerConfig(MailerPort):
         )
         try:
             mailer.send_message(msg)
-        except:
-            print("Error al intentar imprimir")
+        except Exception as e:
+            print("Error al intentar imprimir:", str(e))
+            raise
         finally:
             mailer.quit()
-    

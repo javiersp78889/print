@@ -7,10 +7,11 @@ class PdfMaker(PDFPort):
 
     A4_LANDSCAPE = (3508, 2480)
 
-    def __init__(self):
+    def __init__(self,BASE_DIR):
         Image.init()
-        os.makedirs("output", exist_ok=True)
-        self.path = "output/impresiones.pdf"
+        self.BASE_DIR = BASE_DIR
+        self.OUTPUT_DIR = os.path.join(self.BASE_DIR, "output")
+        self.path = os.path.join(self.OUTPUT_DIR, "impresiones.pdf")
 
     def _save_pdf(self, pages):
         if not pages:
@@ -65,7 +66,7 @@ class PdfMaker(PDFPort):
             pages.append(pagina)
 
         return self._save_pdf(pages)
-    
+
     def onePerPage(self, image_list: list[str]):
         pages = []
 
@@ -75,7 +76,7 @@ class PdfMaker(PDFPort):
                 pages.append(imagen.convert("RGB"))
 
         return self._save_pdf(pages)
-    
+
     def twoPerPage(self, image_list: list[str]):
 
         return self._multiple_per_page(

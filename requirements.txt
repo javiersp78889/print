@@ -1,5 +1,6 @@
 Flask
 Pillow
-
+flask-cors
 python-dotenv
 gunicorn
+rembg[cpu]
